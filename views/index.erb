@@ -88,10 +88,6 @@
 
           var img = $("#collage img").attr("src");
           form.find("input[name=image]").attr("value", img);
-
-          // $.post(form.attr("action"), form.serialize(), function(data){
-          //   console.log("its late")
-          // });
         });
 
         var opts = {
@@ -127,7 +123,7 @@
           });
           setTimeout(function(){
             poll();
-          }, 500);
+          }, 1500);
         });
       }
     </script>

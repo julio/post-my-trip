@@ -69,10 +69,6 @@ post '/upload' do
   content_type "application/pdf"
   attachment "postcard.pdf"
   file
-  # File.open("postcard.pdf", "w") do |f|
-  #   f.print file
-  # end
-  # `open postcard.pdf`
 end
 
 get '/collage' do
