@@ -23,7 +23,7 @@ post '/create' do
   session[:tasks] << client.tasks.create("GetCollage", {
     :access_token => session[:access_token],
     :latlong => params['latlong'],
-    :num_rows => params['num_rows']
+    :orientation => params['orientation']
   }).id
 
   { :success => true }.to_json

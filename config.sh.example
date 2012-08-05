@@ -1,0 +1,19 @@
+#!/bin/bash
+
+if [[ "$1" != "heroku" ]]; then
+  export IRON_WORKER_TOKEN="EXAMPLE"
+  export IRON_WORKER_PROJECT_ID="EXAMPLE"
+  export RACKSPACE_USERNAME="EXAMPLE"
+  export RACKSPACE_API_KEY="EXAMPLE"
+  export FOURSQUARE_KEY="EXAMPLE"
+  export FOURSQUARE_SECRET="EXAMPLE"
+  export SINCERELY_APP_KEY="EXAMPLE"
+else
+  heroku config:set IRON_WORKER_TOKEN="EXAMPLE"
+  heroku config:set IRON_WORKER_PROJECT_ID="EXAMPLE"
+  heroku config:set RACKSPACE_USERNAME="EXAMPLE"
+  heroku config:set RACKSPACE_API_KEY="EXAMPLE"
+  heroku config:set FOURSQUARE_KEY="EXAMPLE"
+  heroku config:set FOURSQUARE_SECRET="EXAMPLE"
+  heroku config:set SINCERELY_APP_KEY="EXAMPLE"
+fi

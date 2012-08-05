@@ -6,6 +6,6 @@ gem 'active_support'
 gem 'cloudfiles'
 
 exec 'get_collage.rb'
-file '../config.yml'
+file '../config.sh'
 
 name 'GetCollage'

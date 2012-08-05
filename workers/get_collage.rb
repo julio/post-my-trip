@@ -5,9 +5,18 @@ require 'active_support/core_ext'
 require 'cloudfiles'
 require 'digest/md5'
 
+File.read("config.sh").split("\n").each do |s|
+  matches = s.match(/export (.+)="(.+)"/)
+  if !matches.nil?
+    captures = matches.captures
+    ENV[captures.first] = captures.last
+  end
+end
+
 class Collage
-  def initialize(files)
+  def initialize(files, options={})
     @files = files
+    @options = options
   end
 
   def generate(collage_name)
@@ -21,8 +30,14 @@ class Collage
       end
     end
 
+    orientation = @options["orientation"]
     list = list.montage do |m|
-      m.geometry = "100x100"
+      m.geometry = "300x300"
+      if orientation == "landscape"
+        m.tile = "6x4"
+      else
+        m.tile = "4x6"
+      end
     end
 
     list.write(collage_name)
@@ -54,7 +69,8 @@ images = tasks.map do |id|
   JSON.parse(log)
 end.flatten
 
-c = Collage.new(images.sample(params['num_rows'].to_i ** 2))
+# c = Collage.new(images.sample(params['num_rows'].to_i ** 2))
+c = Collage.new(images.sample(24), params)
 c.generate("collage.jpg")
 
 md5 = Digest::MD5.file("collage.jpg")
