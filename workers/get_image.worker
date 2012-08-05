@@ -1,0 +1,5 @@
+runtime 'ruby'
+gem 'active_support'
+gem 'quimby'
+exec 'get_image.rb'
+name 'GetImage'

@@ -1,0 +1,11 @@
+runtime 'ruby'
+gem 'iron_worker_ng'
+gem 'quimby'
+gem 'rmagick'
+gem 'active_support'
+gem 'cloudfiles'
+
+exec 'get_collage.rb'
+file '../config.yml'
+
+name 'GetCollage'

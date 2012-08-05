@@ -1,0 +1,10 @@
+source "https://rubygems.org"
+
+gem "sinatra"
+gem "i18n"
+gem "active_support"
+gem "quimby"
+gem "iron_worker_ng"
+gem "awesome_print"
+gem "rmagick"
+gem "cloudfiles"

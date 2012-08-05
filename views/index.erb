@@ -1,0 +1,69 @@
+<form action="/create" method="POST">
+  <dl>
+    <dt>Number of rows:</dt>
+    <dd><input type="text" name="num_rows" value="5" /></dd>
+    <dt></dt>
+    <dd><input type="submit" value="Create Collage" /></dd>
+  </dl>
+  <input type="hidden" name="latlong" />
+</form>
+
+<span id="spinner" style="display: none;"></span>
+<div id="collage"></div>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="http://fgnass.github.com/spin.js/dist/spin.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("form").submit(function(e){
+      e.preventDefault();
+
+      $("#spinner").show();
+      navigator.geolocation.getCurrentPosition(function(geo){
+        var form = $(e.currentTarget);
+        var coords = form.find("input[name=latlong]");
+        coords.attr("value", geo.coords.latitude + "," + geo.coords.longitude);
+
+        $.post(form.attr("action"), form.serialize(), function(data){
+          poll();
+        });
+      })
+    }); 
+
+    var opts = {
+      lines: 13, // The number of lines to draw
+      length: 7, // The length of each line
+      width: 4, // The line thickness
+      radius: 10, // The radius of the inner circle
+      rotate: 0, // The rotation offset
+      color: '#000', // #rgb or #rrggbb
+      speed: 1, // Rounds per second
+      trail: 60, // Afterglow percentage
+      shadow: false, // Whether to render a shadow
+      hwaccel: true, // Whether to use hardware acceleration
+      className: 'spinner', // The CSS class to assign to the spinner
+      zIndex: 2e9, // The z-index (defaults to 2000000000)
+      top: '0', // Top position relative to parent in px
+      left: '0' // Left position relative to parent in px
+    };
+    var target = document.getElementById('spinner');
+    var spinner = new Spinner(opts).spin(target);
+  });
+
+  function poll(){
+    $.get("/collage", function(data){
+      if (data === "") {
+        $("#spinner").hide();
+        return;
+      }
+
+      data = JSON.parse(data);
+      data.forEach(function(img){
+        $("#collage").html('<img src="' + img + '" />');
+      });
+      setTimeout(function(){
+        poll();
+      }, 500);
+    });
+  }
+</script>
