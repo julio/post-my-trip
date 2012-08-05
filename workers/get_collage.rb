@@ -5,8 +5,6 @@ require 'active_support/core_ext'
 require 'cloudfiles'
 require 'digest/md5'
 
-CONFIG = YAML.load_file('config.yml')
-
 class Collage
   def initialize(files)
     @files = files
@@ -34,8 +32,8 @@ end
 access_token = params["access_token"]
 
 client = IronWorkerNG::Client.new(
-  :token => CONFIG["iron_worker"]["token"],
-  :project_id => CONFIG["iron_worker"]["project_id"]
+  :token => ENV["IRON_WORKER_TOKEN"],
+  :project_id => ENV["IRON_WORKER_PROJECT_ID"]
 )
 
 foursquare = Foursquare::Base.new(access_token)
@@ -62,7 +60,7 @@ c.generate("collage.jpg")
 md5 = Digest::MD5.file("collage.jpg")
 filename = "collage-#{md5}.jpg"
 
-cf = CloudFiles::Connection.new(:username => CONFIG["rackspace"]["username"], :api_key => CONFIG["rackspace"]["api_key"])
+cf = CloudFiles::Connection.new(:username => ENV["RACKSPACE_USERNAME"], :api_key => ENV["RACKSPACE_API_KEY"])
 container = cf.container('post-my-trip')
 container.delete_object(filename) if container.object_exists?(filename)
 object = container.create_object(filename)

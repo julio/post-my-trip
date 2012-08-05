@@ -2,8 +2,6 @@ require 'bundler'
 Bundler.require
 require 'active_support/core_ext'
 
-CONFIG = YAML.load_file(File.join(File.dirname(__FILE__), 'config.yml'))
-
 enable :sessions
 
 before do
@@ -51,19 +49,19 @@ get '/collage' do
 end
 
 get '/auth' do
-  redirect @foursquare.authorize_url("http://0.0.0.0:4567/callback")
+  redirect @foursquare.authorize_url("http://192.168.130.219:4567/callback")
 end
 
 get '/callback' do
-  session[:access_token] = @foursquare.access_token(params["code"], "http://0.0.0.0:4567/callback")
+  session[:access_token] = @foursquare.access_token(params["code"], "http://192.168.130.219:4567/callback")
 
   redirect '/'
 end
 
 def iron_worker
   @iron_worker_client ||= IronWorkerNG::Client.new(
-    :token      => CONFIG["iron_worker"]["token"],
-    :project_id => CONFIG["iron_worker"]["project_id"]
+    :token      => ENV["IRON_WORKER_TOKEN"],
+    :project_id => ENV["IRON_WORKER_PROJECT_ID"]
   )
 end
 
@@ -71,6 +69,6 @@ def foursquare
   if session[:access_token]
     Foursquare::Base.new(session[:access_token])
   else
-    Foursquare::Base.new(CONFIG["foursquare"]["key"], CONFIG["foursquare"]["secret"])
+    Foursquare::Base.new(ENV["FOURSQUARE_KEY"], ENV["FOURSQUARE_SECRET"])
   end
 end
