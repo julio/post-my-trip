@@ -1,6 +1,7 @@
 require 'bundler'
 Bundler.require
 require 'active_support/core_ext'
+require 'open-uri'
 
 enable :sessions
 
@@ -26,6 +27,47 @@ post '/create' do
     :orientation => params['orientation']
   }).id
 
+  { :success => true }.to_json
+end
+
+post '/upload' do
+  image = RestClient.post "https://snapi.sincerely.com/shiplib/upload",
+    :appkey => ENV["SINCERELY_APP_KEY"],
+    :photo => open(params['image'])
+  image = JSON.parse(image)
+
+  req = RestClient::Request.new(
+    :method => :post,
+    :url => "https://snapi.sincerely.com/shiplib/create",
+    :payload => {
+      :appkey => ENV["SINCERELY_APP_KEY"],
+      :debugMode => true,
+      # :message => "hello",
+      :frontPhotoId => image["id"],
+      :recipients => [
+        {
+          :name => params["name"],
+          :email => params["email"],
+          # :street1 => "800 some road",
+          # :city => "Mountain View",
+          # :state => "CA",
+          # :postalcode => "94043",
+          # :country => "USA"
+        }
+      ].to_json,
+      :sender => {
+        :name => "Trae Robrock",
+        :email => "trobrock@gmail.com",
+        :street1 => "813 Farley St",
+        :city => "Mountain View",
+        :state => "CA",
+        :postalcode => "94043",
+        :country => "USA"
+      }.to_json
+    }
+  )
+  ap req.payload.to_s
+  p req.execute
   { :success => true }.to_json
 end
 

@@ -52,5 +52,6 @@ DEPENDENCIES
   iron_worker_ng
   quimby
   rake
+  rest-client
   rmagick
   sinatra

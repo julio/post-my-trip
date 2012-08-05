@@ -10,11 +10,14 @@
   <body>
 
     <div class="container">
+      <div class="page-header">
+        <h1>Post my trip</h1>
+      </div>
+
       <div class="row">
         <div class="span4">
           <form action="/create" method="POST" class="form-horizontal" id="generate-form">
             <fieldset>
-              <legend>Create a collage</legend>
               <div class="control-group">
                 <label class="control-label" for="num_rows">Orientation</label>
                 <div class="controls">
@@ -25,10 +28,32 @@
                 </div>
               </div>
               <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Go!</button>
+                <button type="submit" class="btn btn-primary">Generate!</button>
               </div>
             </fieldset>
             <input type="hidden" name="latlong" />
+          </form>
+
+          <form action="/upload" method="POST" class="form-horizontal" id="upload-form">
+            <fieldset>
+              <div class="control-group">
+                <label class="control-label" for="num_rows">Name</label>
+                <div class="controls">
+                  <input type="text" name="name" />
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label" for="num_rows">Email</label>
+                <div class="controls">
+                  <input type="text" name="email" />
+                </div>
+              </div>
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Send!</button>
+              </div>
+            </fieldset>
+
+            <input type="hidden" name="image" />
           </form>
         </div>
 
@@ -57,6 +82,18 @@
             });
           });
         }); 
+
+        $("#upload-form").submit(function(e){
+          e.preventDefault();
+          var form = $(e.currentTarget);
+
+          var img = $("#collage img").attr("src");
+          form.find("input[name=image]").attr("value", img);
+
+          $.post(form.attr("action"), form.serialize(), function(data){
+            console.log("its late")
+          });
+        });
 
         var opts = {
           lines: 13, // The number of lines to draw
