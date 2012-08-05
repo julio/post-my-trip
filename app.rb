@@ -49,11 +49,11 @@ get '/collage' do
 end
 
 get '/auth' do
-  redirect @foursquare.authorize_url("http://192.168.130.219:4567/callback")
+  redirect @foursquare.authorize_url("http://post-my-trip.herokuapp.com/callback")
 end
 
 get '/callback' do
-  session[:access_token] = @foursquare.access_token(params["code"], "http://192.168.130.219:4567/callback")
+  session[:access_token] = @foursquare.access_token(params["code"], "http://post-my-trip.herokuapp.com/callback")
 
   redirect '/'
 end
