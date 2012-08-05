@@ -36,39 +36,43 @@ post '/upload' do
     :photo => open(params['image'])
   image = JSON.parse(image)
 
-  req = RestClient::Request.new(
-    :method => :post,
-    :url => "https://snapi.sincerely.com/shiplib/create",
-    :payload => {
-      :appkey => ENV["SINCERELY_APP_KEY"],
-      :debugMode => true,
-      # :message => "hello",
-      :frontPhotoId => image["id"],
-      :recipients => [
-        {
-          :name => params["name"],
-          :email => params["email"],
-          # :street1 => "800 some road",
-          # :city => "Mountain View",
-          # :state => "CA",
-          # :postalcode => "94043",
-          # :country => "USA"
-        }
-      ].to_json,
-      :sender => {
-        :name => "Trae Robrock",
-        :email => "trobrock@gmail.com",
-        :street1 => "813 Farley St",
+  postcard = RestClient.post "https://snapi.sincerely.com/shiplib/create",
+    :appkey => ENV["SINCERELY_APP_KEY"],
+    :message => "Hello from #eHD",
+    :frontPhotoId => image["id"],
+    :recipients => [
+      {
+        :name => params["name"],
+        :email => params["email"],
+        :street1 => "800 some road",
         :city => "Mountain View",
         :state => "CA",
         :postalcode => "94043",
         :country => "USA"
-      }.to_json
-    }
-  )
-  ap req.payload.to_s
-  p req.execute
-  { :success => true }.to_json
+      }
+    ].to_json,
+    :sender => {
+      :name => "Trae Robrock",
+      :email => "trobrock@gmail.com",
+      :street1 => "813 Farley St",
+      :city => "Mountain View",
+      :state => "CA",
+      :postalcode => "94043",
+      :country => "USA"
+    }.to_json
+
+  postcard = JSON.parse(postcard)
+  file = RestClient.post "https://snapi.sincerely.com/shiplib/debug",
+    :appkey => ENV["SINCERELY_APP_KEY"],
+    :printId => postcard["sent_to"].first["printId"]
+
+  content_type "application/pdf"
+  attachment "postcard.pdf"
+  file
+  # File.open("postcard.pdf", "w") do |f|
+  #   f.print file
+  # end
+  # `open postcard.pdf`
 end
 
 get '/collage' do

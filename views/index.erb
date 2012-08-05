@@ -84,15 +84,14 @@
         }); 
 
         $("#upload-form").submit(function(e){
-          e.preventDefault();
           var form = $(e.currentTarget);
 
           var img = $("#collage img").attr("src");
           form.find("input[name=image]").attr("value", img);
 
-          $.post(form.attr("action"), form.serialize(), function(data){
-            console.log("its late")
-          });
+          // $.post(form.attr("action"), form.serialize(), function(data){
+          //   console.log("its late")
+          // });
         });
 
         var opts = {
