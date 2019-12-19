@@ -1,6 +1,6 @@
 GIT
-  remote: git://github.com/rails/activeresource.git
-  revision: b0260869aae5f44121d82cf349105d810cf41b2e
+  remote: https://github.com/rails/activeresource.git
+  revision: 5038de5a0f6079d368fb8a80cc648ed93fa777e4
   branch: master
   specs:
     activeresource (5.1.0)
@@ -11,19 +11,20 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    activemodel (5.2.2)
-      activesupport (= 5.2.2)
+    activemodel (6.0.2.1)
+      activesupport (= 6.0.2.1)
     activemodel-serializers-xml (1.0.2)
       activemodel (> 5.x)
       activesupport (> 5.x)
       builder (~> 3.1)
-    activesupport (5.2.2)
+    activesupport (6.0.2.1)
       concurrent-ruby (~> 1.0, >= 1.0.2)
       i18n (>= 0.7, < 2)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+      zeitwerk (~> 2.2)
     awesome_print (1.8.0)
-    builder (3.2.3)
+    builder (3.2.4)
     cloudfiles (1.5.0.3)
       json
     concurrent-ruby (1.1.4)
@@ -39,14 +40,14 @@ GEM
       json (~> 1.8, > 1.8.1)
       rest (~> 3.0, >= 3.0.8)
     json (1.8.6)
-    minitest (5.11.3)
+    minitest (5.13.0)
     mustermann (1.0.3)
     net-http-persistent (2.9.4)
     netrc (0.11.0)
     quimby (0.4.5)
       json
       typhoeus
-    rack (2.0.6)
+    rack (2.0.8)
     rack-protection (2.0.5)
       rack
     rake (12.3.2)
@@ -65,6 +66,7 @@ GEM
       ethon (>= 0.9.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
+    zeitwerk (2.2.2)
 
 PLATFORMS
   ruby
